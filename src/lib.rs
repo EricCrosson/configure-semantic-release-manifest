@@ -1,6 +1,6 @@
 use std::{
     collections::HashSet,
-    io::{BufWriter, Write},
+    io::{self, BufWriter, Write},
     path::PathBuf,
 };
 #[forbid(unsafe_code)]
@@ -12,6 +12,12 @@ use serde::{Deserialize, Serialize};
 mod error;
 
 use crate::error::Error;
+
+#[derive(Debug)]
+pub enum WriteTo {
+    Stdout,
+    InPlace,
+}
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ModifiedFlag {
@@ -122,30 +128,32 @@ impl SemanticReleaseConfiguration {
         })
     }
 
-    fn write(&self) -> Result<(), Error> {
+    fn write(&mut self, mut w: impl Write) -> Result<(), Error> {
         debug!(
             "Writing semantic-release configuration to file {:?}",
             self.manifest_path
         );
-        let file = File::create(&self.manifest_path)
-            .map_err(|err| Error::file_open_error(err, &self.manifest_path))?;
-        let mut writer = BufWriter::new(file);
-        serde_json::to_writer_pretty(&mut writer, &self.manifest)
+        serde_json::to_writer_pretty(&mut w, &self.manifest)
             .map_err(|err| Error::file_serialize_error(err))?;
-        writer
-            .write_all(b"\n")
+        w.write_all(b"\n")
             .map_err(|err| Error::file_write_error(err, &self.manifest_path))?;
-        writer
-            .flush()
+        w.flush()
             .map_err(|err| Error::file_write_error(err, &self.manifest_path))?;
 
         Ok(())
     }
 
-    pub fn write_if_modified(&self) -> Result<(), Error> {
+    pub fn write_if_modified(&mut self, write_to: WriteTo) -> Result<(), Error> {
         match self.dirty {
             ModifiedFlag::Unmodified => Ok(()),
-            ModifiedFlag::Modified => self.write(),
+            ModifiedFlag::Modified => match write_to {
+                WriteTo::Stdout => self.write(io::stdout()),
+                WriteTo::InPlace => {
+                    let file = File::create(&self.manifest_path)
+                        .map_err(|err| Error::file_open_error(err, &self.manifest_path))?;
+                    self.write(BufWriter::new(file))
+                }
+            },
         }
     }
 
