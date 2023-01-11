@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.0...v1.0.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* implement --in-place flag ([04559d7](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/04559d777b398354231e7d3fdd9efebeb1c36a2c))
+
 # 1.0.0 (2023-01-11)
 
 
