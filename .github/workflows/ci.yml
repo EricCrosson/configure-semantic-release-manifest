@@ -1,0 +1,9 @@
+---
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    uses: EricCrosson/rust-action/.github/workflows/ci.yml@v2
