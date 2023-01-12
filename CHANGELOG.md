@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.1...v1.0.2) (2023-01-12)
+
+
+### Bug Fixes
+
+* **deps:** pin dependencies ([64b6814](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/64b6814ee5c421bd934fd07f54d2d975fe8df0a8))
+
 ## [1.0.1](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.0...v1.0.1) (2023-01-11)
 
 
