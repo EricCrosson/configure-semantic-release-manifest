@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.5...v1.0.6) (2023-01-14)
+
+
+### Bug Fixes
+
+* **deps:** migrate to semantic-release-action/next-release-version ([a89b07b](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/a89b07b05fd439bbe9f0259ad1e0ba2eaaf35ac4))
+
 ## [1.0.5](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.4...v1.0.5) (2023-01-14)
 
 
