@@ -23,7 +23,7 @@ name = "configure_semantic_release_manifest"
 name = "configure-semantic-release-manifest"
 
 [dependencies]
-clap = { version = "=4.1.3", features = ["cargo", "derive", "wrap_help"] }
+clap = { version = "=4.1.4", features = ["cargo", "derive", "wrap_help"] }
 env_logger = { version = "=0.10.0", default-features = false }
 log = "=0.4.17"
 serde = { version = "=1.0.152", features = ["derive"] }
