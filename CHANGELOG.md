@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.7...v1.0.8) (2023-02-05)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate serde_json to v1.0.92 ([a1063f4](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/a1063f4f7463d7db832e89a2f55159aa4865f5a1))
+
 ## [1.0.7](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.6...v1.0.7) (2023-02-04)
 
 
