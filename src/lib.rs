@@ -1,9 +1,16 @@
+#![forbid(unsafe_code)]
+#![deny(warnings)]
+
+//! **configure-semantic-release-manifest** is a CLI tool to remove
+//! plugins from a [semantic-release] manifest.
+//!
+//! [semantic-release]: https://github.com/semantic-release/semantic-release
+
 use std::{
     collections::HashSet,
     io::{self, BufWriter, Write},
     path::PathBuf,
 };
-#[forbid(unsafe_code)]
 use std::{fs::File, io::Read, path::Path};
 
 use log::debug;
