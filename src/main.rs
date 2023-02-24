@@ -6,7 +6,7 @@ use clap::Parser;
 
 use configure_semantic_release_manifest::{SemanticReleaseConfiguration, WriteTo};
 
-const SEMANTIC_RELEASE_MANIFEST_PATH: &'static str = ".releaserc.json";
+const SEMANTIC_RELEASE_MANIFEST_PATH: &str = ".releaserc.json";
 
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
@@ -14,7 +14,7 @@ struct Cli {
     #[arg(long, default_value = SEMANTIC_RELEASE_MANIFEST_PATH)]
     config: PathBuf,
 
-    /// Remove
+    /// Remove a plugin's configuration
     #[arg(long, action=clap::ArgAction::Append)]
     remove: Vec<String>,
 
@@ -29,7 +29,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
 
     let mut configuration = SemanticReleaseConfiguration::read_from_file(&cli.config)?;
-    configuration.remove_plugin_configuration(HashSet::from_iter(cli.remove));
+
+    configuration.remove_plugin_configuration(HashSet::from_iter(cli.remove))?;
     match cli.in_place {
         true => configuration.write_if_modified(WriteTo::InPlace)?,
         false => configuration.write_if_modified(WriteTo::Stdout)?,

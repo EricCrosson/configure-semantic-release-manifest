@@ -10,11 +10,12 @@ use std::{
     collections::HashSet,
     io::{self, BufWriter, Write},
     path::PathBuf,
+    str::FromStr,
 };
 use std::{fs::File, io::Read, path::Path};
 
+use indexmap::{map::Entry, IndexMap};
 use log::debug;
-use serde::{Deserialize, Serialize};
 
 mod error;
 
@@ -32,17 +33,26 @@ pub enum ModifiedFlag {
     Modified,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(untagged)]
-pub enum SemanticReleasePluginConfiguration {
-    WithoutConfiguration(String),
-    WithConfiguration(Vec<serde_json::Value>),
+#[derive(Debug)]
+pub struct SemanticReleaseManifest {
+    inner: IndexMap<String, serde_json::Value>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct SemanticReleaseManifest {
-    pub plugins: Option<Vec<SemanticReleasePluginConfiguration>>,
+impl FromStr for SemanticReleaseManifest {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(Self {
+            inner: serde_json::from_str(s).map_err(Error::file_parse_error)?,
+        })
+    }
 }
+
+// #[derive(Clone, Debug, Deserialize, Serialize)]
+// pub struct SemanticReleaseManifest {
+//     #[serde(skip_serializing_if = "Option::is_none")]
+//     pub plugins: Option<Vec<SemanticReleasePluginConfiguration>>,
+// }
 
 pub struct SemanticReleaseConfiguration {
     manifest: SemanticReleaseManifest,
@@ -50,37 +60,37 @@ pub struct SemanticReleaseConfiguration {
     dirty: ModifiedFlag,
 }
 
-impl SemanticReleasePluginConfiguration {
-    pub fn plugin_name(&self) -> Option<&str> {
-        match self {
-            SemanticReleasePluginConfiguration::WithoutConfiguration(value) => Some(value),
-            SemanticReleasePluginConfiguration::WithConfiguration(array) => {
-                array.get(0).and_then(|value| value.as_str())
-            }
-        }
+fn plugin_name(value: &serde_json::Value) -> Option<&str> {
+    match value {
+        serde_json::Value::String(string) => Some(string),
+        serde_json::Value::Array(array) => array.get(0).and_then(|value| value.as_str()),
+        _ => None,
     }
 }
 
 impl SemanticReleaseManifest {
-    pub fn parse_from_string(string: &str) -> Result<Self, Error> {
-        serde_json::from_str(&string).map_err(|err| Error::file_parse_error(err))
-    }
-
-    pub fn remove_plugin_configuration(&mut self, to_remove: HashSet<String>) -> ModifiedFlag {
+    pub fn remove_plugin_configuration(
+        &mut self,
+        to_remove: HashSet<String>,
+    ) -> Result<ModifiedFlag, Error> {
         let mut dirty = ModifiedFlag::Unmodified;
 
-        if let Some(plugins) = self.plugins.clone() {
+        if let Entry::Occupied(mut plugins) = self.inner.entry("plugins".to_owned()) {
             let filtered_plugins: Vec<_> = plugins
-                .into_iter()
+                .get()
+                .as_array()
+                .ok_or_else(|| Error::UnexpectedContentsError)?
+                .iter()
+                .cloned()
                 .filter(|configuration| {
-                    match configuration.plugin_name() {
+                    match plugin_name(configuration) {
                         Some(plugin_name) => {
                             if to_remove.contains(plugin_name) {
                                 debug!("Removing configuration for plugin {}", plugin_name);
                                 dirty = ModifiedFlag::Modified;
-                                return false;
+                                false
                             } else {
-                                return true;
+                                true
                             }
                         }
                         // Not a valid plugin, so leave it unchanged
@@ -89,16 +99,16 @@ impl SemanticReleaseManifest {
                 })
                 .collect();
 
-            self.plugins = Some(filtered_plugins);
+            plugins.insert(serde_json::Value::Array(filtered_plugins));
         }
 
-        dirty
+        Ok(dirty)
     }
 }
 
 impl std::fmt::Display for SemanticReleaseManifest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", serde_json::to_string_pretty(self).unwrap())
+        write!(f, "{}", serde_json::to_string_pretty(&self.inner).unwrap())
     }
 }
 
@@ -128,7 +138,7 @@ impl SemanticReleaseConfiguration {
             .map_err(|err| Error::file_read_error(err, semantic_release_manifest_path))?;
 
         Ok(Self {
-            manifest: SemanticReleaseManifest::parse_from_string(&string)?,
+            manifest: SemanticReleaseManifest::from_str(&string)?,
             manifest_path: semantic_release_manifest_path.to_owned(),
             dirty: ModifiedFlag::Unmodified,
         })
@@ -139,8 +149,8 @@ impl SemanticReleaseConfiguration {
             "Writing semantic-release configuration to file {:?}",
             self.manifest_path
         );
-        serde_json::to_writer_pretty(&mut w, &self.manifest)
-            .map_err(|err| Error::file_serialize_error(err))?;
+        serde_json::to_writer_pretty(&mut w, &self.manifest.inner)
+            .map_err(Error::file_serialize_error)?;
         w.write_all(b"\n")
             .map_err(|err| Error::file_write_error(err, &self.manifest_path))?;
         w.flush()
@@ -163,10 +173,11 @@ impl SemanticReleaseConfiguration {
         }
     }
 
-    pub fn remove_plugin_configuration(&mut self, to_remove: HashSet<String>) {
-        let modified = self.manifest.remove_plugin_configuration(to_remove);
+    pub fn remove_plugin_configuration(&mut self, to_remove: HashSet<String>) -> Result<(), Error> {
+        let modified = self.manifest.remove_plugin_configuration(to_remove)?;
         if modified == ModifiedFlag::Modified {
             self.dirty = ModifiedFlag::Modified;
         }
+        Ok(())
     }
 }

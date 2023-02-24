@@ -28,6 +28,9 @@ pub enum Error {
         inner: serde_json::Error,
     },
 
+    #[error("Unexpected contents in semantic-release configuration file")]
+    UnexpectedContentsError,
+
     #[error("Unable to serialize file")]
     FileSerializeError {
         #[source]
