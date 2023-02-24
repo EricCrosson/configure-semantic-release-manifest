@@ -68,7 +68,6 @@ impl SemanticReleaseManifest {
 
     pub fn remove_plugin_configuration(&mut self, to_remove: HashSet<String>) -> ModifiedFlag {
         let mut dirty = ModifiedFlag::Unmodified;
-        // let plugins_to_remove: HashSet<String> = cli.remove.into_iter().collect();
 
         if let Some(plugins) = self.plugins.clone() {
             let filtered_plugins: Vec<_> = plugins
