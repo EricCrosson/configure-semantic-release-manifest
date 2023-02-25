@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.11...v1.0.12) (2023-02-25)
+
+
+### Bug Fixes
+
+* find the semantic-release configuration dynamically ([3eb5be3](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/3eb5be37e416d8594d8c7ebddbc6d175858b90ba))
+
 ## [1.0.11](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.10...v1.0.11) (2023-02-25)
 
 
