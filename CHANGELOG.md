@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.10...v1.0.11) (2023-02-25)
+
+
+### Bug Fixes
+
+* do not modify unrelated configuration ([dc4bfa1](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/dc4bfa1cfc8e403438e3529819caf2f48d795cfe))
+
 ## [1.0.10](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.9...v1.0.10) (2023-02-16)
 
 
