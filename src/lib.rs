@@ -107,9 +107,6 @@ impl std::fmt::Display for SemanticReleaseManifest {
 }
 
 impl SemanticReleaseConfiguration {
-    // DISCUSS: could pull out a library for finding the semantic-release manifest.
-    // This sounds a lot like is-semantic-release-configured
-    // For now, assume it's .releaserc.json and document the limitation
     pub fn read_from_file(semantic_release_manifest_path: &Path) -> Result<Self, Error> {
         debug!(
             "Reading semantic-release configuration from file {:?}",
