@@ -74,7 +74,6 @@ dependencies = [
  "indexmap",
  "log",
  "serde_json",
- "thiserror",
 ]
 
 [[package]]

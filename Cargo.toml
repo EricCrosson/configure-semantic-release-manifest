@@ -29,7 +29,6 @@ find-semantic-release-config = "=1.0.4"
 indexmap = { version = "=1.9.2", features = ["serde"] }
 log = "=0.4.17"
 serde_json = { version = "=1.0.93", features = ["preserve_order"] }
-thiserror = "=1.0.38"
 
 [profile.release]
 lto = true
