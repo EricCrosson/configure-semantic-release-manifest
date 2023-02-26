@@ -48,12 +48,6 @@ impl FromStr for SemanticReleaseManifest {
     }
 }
 
-// #[derive(Clone, Debug, Deserialize, Serialize)]
-// pub struct SemanticReleaseManifest {
-//     #[serde(skip_serializing_if = "Option::is_none")]
-//     pub plugins: Option<Vec<SemanticReleasePluginConfiguration>>,
-// }
-
 pub struct SemanticReleaseConfiguration {
     manifest: SemanticReleaseManifest,
     manifest_path: PathBuf,
