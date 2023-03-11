@@ -29,7 +29,7 @@ struct Cli {
 }
 
 fn find_semantic_release_config(directory: &Path) -> Result<PathBuf> {
-    Ok(find_semantic_release_configuration(&directory)?.ok_or_else(
+    find_semantic_release_configuration(directory)?.ok_or_else(
         || -> Box<dyn std::error::Error> {
             format!(
                 "unable to find semantic-release configuration in {:?}",
@@ -37,7 +37,7 @@ fn find_semantic_release_config(directory: &Path) -> Result<PathBuf> {
             )
             .into()
         },
-    )?)
+    )
 }
 
 fn is_unsupported_file_extension(config: &Path) -> bool {
