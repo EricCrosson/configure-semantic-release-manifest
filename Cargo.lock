@@ -72,7 +72,7 @@ dependencies = [
 
 [[package]]
 name = "configure-semantic-release-manifest"
-version = "1.0.18"
+version = "1.0.19"
 dependencies = [
  "clap",
  "env_logger",
