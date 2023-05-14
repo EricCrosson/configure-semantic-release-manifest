@@ -1,3 +1,10 @@
+## [1.0.34](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.33...v1.0.34) (2023-05-14)
+
+
+### Bug Fixes
+
+* improve error message formatting ([4815a75](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/4815a75d8362f9d9c0721fb00efdad79d7d588f5))
+
 ## [1.0.33](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.32...v1.0.33) (2023-05-14)
 
 
