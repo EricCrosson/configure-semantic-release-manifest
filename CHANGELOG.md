@@ -1,3 +1,10 @@
+## [1.0.33](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.32...v1.0.33) (2023-05-14)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate find-semantic-release-config to v1.0.8 ([e8b6d13](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/e8b6d13b43861af6db0eb8469fc1a25b93303fea))
+
 ## [1.0.32](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.31...v1.0.32) (2023-05-14)
 
 
