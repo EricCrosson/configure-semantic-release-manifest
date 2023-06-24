@@ -1,3 +1,10 @@
+## [1.0.46](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.45...v1.0.46) (2023-06-24)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate indexmap to v2 ([ab337e0](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/ab337e05ce75c3acff8f6245ce06f467fffe969b))
+
 ## [1.0.45](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.44...v1.0.45) (2023-06-24)
 
 
