@@ -1,3 +1,10 @@
+## [1.0.60](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.59...v1.0.60) (2023-08-12)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate log to v0.4.20 ([d6a03f5](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/d6a03f5e29e61797d3e06382d9e909aa1afb7f96))
+
 ## [1.0.59](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.58...v1.0.59) (2023-08-08)
 
 
