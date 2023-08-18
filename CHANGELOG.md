@@ -1,3 +1,10 @@
+## [1.0.62](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.61...v1.0.62) (2023-08-18)
+
+
+### Bug Fixes
+
+* **deps:** update rust crate clap to v4.3.22 ([c478c03](https://github.com/EricCrosson/configure-semantic-release-manifest/commit/c478c03e96c92ab2476a24f9b971343c7247254b))
+
 ## [1.0.61](https://github.com/EricCrosson/configure-semantic-release-manifest/compare/v1.0.60...v1.0.61) (2023-08-16)
 
 
